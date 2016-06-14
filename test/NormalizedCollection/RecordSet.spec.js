@@ -208,7 +208,7 @@ describe('RecordSet', function() {
       var fm = makeFieldMap(makePathMgr());
       var recs = new RecordSet(fm, new Filter());
       var snaps = createSnaps(fm, undefined, function(snap) {
-        if( snap.key() === 'p4val' ) { return 99; }
+        if( snap.key === 'p4val' ) { return 99; }
         else { return null; }
       });
       var data = recs.mergeData(snaps, true);

@@ -118,7 +118,7 @@ Offset.prototype._queryRef = function() {
 };
 
 Offset.prototype._moved = function(snap) {
-  if( snap.key() === this.getKey() ) {
+  if( snap.key === this.getKey() ) {
     this._recache();
   }
 };
@@ -190,7 +190,7 @@ function extractKey(snap, field) {
   var v;
   switch(field) {
     case '$key':
-      v = snap.key();
+      v = snap.key;
       break;
     case '$priority':
       v = snap.getPriority();
@@ -210,7 +210,7 @@ function extractKey(snap, field) {
         v = obj[field];
       }
   }
-  return {val: v, key: snap.key()};
+  return {val: v, key: snap.key};
 }
 
 function offsetRef(baseRef, startKey) {

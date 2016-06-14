@@ -31,7 +31,7 @@ var scrollRef = new Firebase.util.Scroll(baseRef, 'number');
 
 // establish an event listener as you would for any Firebase ref
 scrollRef.on('child_added', function(snap) {
-   console.log('added child', snap.key());
+   console.log('added child', snap.key);
 });
 
 // download the first 20 records
@@ -51,7 +51,7 @@ var pageRef = new Firebase.util.Paginate(fb, 'number', {pageSize: 10});
 
 // listen for changes to the data as you would on any Firebase ref
 pageRef.on('child_added', function(snap) {
-   console.log('record added', snap.key());
+   console.log('record added', snap.key);
 });
 
 // discard any currently loaded records (calls child_removed)
@@ -296,10 +296,10 @@ var ref = new Firebase.util.Paginate(
 );
 
 ref.on('child_added', function(snap) {
-   console.log('added', snap.key());
+   console.log('added', snap.key);
 }};
 ref.on('child_removed', function(snap) {
-   console.log('removed', snap.key());
+   console.log('removed', snap.key);
 }};
 
 ref.page.next();
