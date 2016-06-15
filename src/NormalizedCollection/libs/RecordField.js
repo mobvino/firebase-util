@@ -75,7 +75,7 @@ util.inherits(RecordField, AbstractRecord, {
   },
 
   saveData: function(data, opts) {
-    var ref = this.path;
+    var ref = this.path.ref;
     if( opts.isUpdate ) {
       if( !util.isObject(data) ) {
         throw new Error('When using update(), the data must be an object.');
@@ -100,12 +100,12 @@ util.inherits(RecordField, AbstractRecord, {
     this.handlers[event] = function(snap, prev) {
       self.trigger(new SnapshotFactory(event, snap.key, snap, prev));
     };
-    this.path.on(event, this.handlers[event], this._cancel, this);
+    this.path.ref.on(event, this.handlers[event], this._cancel, this);
   },
 
   _stop:   function(event) {
     if( this.handlers.hasOwnProperty(event) ) {
-      this.path.off(event, this.handlers[event], this);
+      this.path.ref.off(event, this.handlers[event], this);
     }
   }
 });

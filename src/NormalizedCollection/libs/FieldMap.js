@@ -78,9 +78,9 @@ FieldMap.prototype = {
    */
   extractData: function(snapshot, isExport) {
     var out = {};
-    var pathName = this.pathMgr.getPathName(snapshot.toString());
-    if( pathName === null && snapshot.parent !== null ) {
-      var parentPath = this.pathMgr.getPathFor(snapshot.parent.toString());
+    var pathName = this.pathMgr.getPathName(snapshot.ref.toString());
+    if( pathName === null && snapshot.ref.parent !== null ) {
+      var parentPath = this.pathMgr.getPathFor(snapshot.ref.parent.toString());
       if( parentPath && parentPath.hasDependency() ) {
         pathName = parentPath.name();
       }
@@ -137,7 +137,7 @@ FieldMap.prototype = {
     }
     if( url ) {
       return util.find(snaps, function (snap) {
-          return snap.toString() === url;
+          return snap.ref.toString() === url;
         }) || null;
     }
     else {

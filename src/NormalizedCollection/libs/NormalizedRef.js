@@ -12,6 +12,11 @@ function NormalizedRef(record, parent) {
   this.parent = this._parent;
   this.key = this._key;
 
+  var p = this;
+  while(p.parent !== null) {
+    p = p.parent;
+  }
+  this.root = p;
 }
 
 util.inherits(NormalizedRef, Query, {
@@ -27,13 +32,10 @@ util.inherits(NormalizedRef, Query, {
     return ref;
   },
 
-  // TODO Change root function to prop
-  'root': function() {
-    var p = this;
-    while(p.parent !== null) {
-      p = p.parent;
-    }
-    return p;
+  /** @deprecated */
+  'name': function() {
+    console.warn('The name() function has been deprecated. Use key instead.');
+    return this.key;
   },
 
   'toString': function() {
@@ -109,7 +111,7 @@ function wrapAll(method) {
   return function() {
     var args = util.toArray(arguments);
     util.each(this.$getPaths(), function(p) {
-      var ref = p;
+      var ref = p.ref;
       ref[method].apply(ref, args);
     });
   };

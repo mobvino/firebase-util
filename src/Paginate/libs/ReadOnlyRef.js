@@ -93,7 +93,7 @@ ReadOnlyRef.prototype = {
 function wrapMaster(method) {
   return function() {
     var args = util.toArray(arguments);
-    var ref = this;
+    var ref = this.ref;
     return ref[method].apply(ref, args);
   };
 }
@@ -101,7 +101,7 @@ function wrapMaster(method) {
 function isReadOnly(method) {
   return function() {
     throw new Error(method + ' is not supported. This is a read-only reference. You can ' +
-    'modify child records after calling .child(), or work with the original by using .');
+    'modify child records after calling .child(), or work with the original by using .ref');
   };
 }
 

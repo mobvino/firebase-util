@@ -131,7 +131,7 @@ util.inherits(Record, AbstractRecord, {
     if( data === null ) {
       util.each(paths, function(p) {
         if( !p.hasDependency() ) {
-          p.reff().remove(q.getHandler());
+          p.reff.remove(q.getHandler());
         }
       });
     }
@@ -161,16 +161,16 @@ util.inherits(Record, AbstractRecord, {
           }
         }
         else {
-          util.log.info('No dynamic key found for master', paths[0].toString(), 'with dynamic path', path.toString());
+          util.log.info('No dynamic key found for master', paths[0].ref.toString(), 'with dynamic path', path.ref.toString());
         }
       }, this);
     }
     else if( paths.length === 1 ) {
       if( util.isDefined(props.priority) ) {
-        paths[0].setWithPriority(data, props.priority, q.getHandler());
+        paths[0].ref.setWithPriority(data, props.priority, q.getHandler());
       }
       else {
-        paths[0].set(data, q.getHandler());
+        paths[0].ref.set(data, q.getHandler());
       }
     }
     else {
@@ -206,7 +206,7 @@ util.inherits(Record, AbstractRecord, {
   },
 
   _writeRef: function(denestedData, path) {
-    var ref = path.reff();
+    var ref = path.reff;
     var dep = path.getDependency();
     if( dep !== null ) {
       var depPath = this.getPathManager().getPath(dep.path);
@@ -233,7 +233,7 @@ util.inherits(Record, AbstractRecord, {
     if( key !== null && type !== 'string' ) {
       throw new Error(
           'Dynamic key values must be a string. Type was ' +
-          type + ' for ' + path.toString() + '->' + fieldId
+          type + ' for ' + path.ref.toString() + '->' + fieldId
       );
     }
     return key;
@@ -268,7 +268,7 @@ ValueEventManager.prototype = {
   update: function(pathName, snap) {
     this.snaps[pathName] = snap;
     this._checkLoadState();
-    util.log('Record.ValueEventManager.update: url=%s, loadCompleted=%s', snap.toString(), this.loadCompleted);
+    util.log('Record.ValueEventManager.update: url=%s, loadCompleted=%s', snap.ref.toString(), this.loadCompleted);
     if( this.loadCompleted ) {
       this.rec.trigger(new SnapshotFactory('value', this.rec.getName(), util.toArray(this.snaps)));
     }
@@ -283,9 +283,9 @@ ValueEventManager.prototype = {
       this.subs.push(dyno.dispose);
     }
     else {
-      path.on('value', fn);
+      path.ref.on('value', fn);
       self.subs.push(function() {
-        path.off('value', fn);
+        path.ref.off('value', fn);
       });
     }
   },
@@ -326,9 +326,9 @@ ChildEventManager.prototype = {
         this.subs.push(this.dyno.dispose);
       }
       else {
-        path.on(event, fn);
+        path.ref.on(event, fn);
         this.subs.push(function() {
-          path.off(event, fn);
+          path.ref.off(event, fn);
         });
       }
     }, this);
@@ -342,8 +342,8 @@ ChildEventManager.prototype = {
   },
 
   update: function(snap, prev) {
-    if( snap !== null && this.map.aliasFor(snap.toString()) !== null ) {
-      util.log('Record.ChildEventManager.update: event=%s, key=%s/%s', this.event, snap.parent.key, snap.key);
+    if( snap !== null && this.map.aliasFor(snap.ref.toString()) !== null ) {
+      util.log('Record.ChildEventManager.update: event=%s, key=%s/%s', this.event, snap.ref.parent.key, snap.key);
       this.rec.trigger(new SnapshotFactory(this.event, snap.key, snap, prev));
     }
   }
@@ -363,7 +363,7 @@ ChildEventManager.prototype = {
 function Dyno(path, fieldMap, event, updateFn) {
   var dep = path.getDependency();
   var depPath = fieldMap.getPath(dep.path);
-  var depRef = depPath;
+  var depRef = depPath.ref;
   if( dep.field === '$key' ) {
     throw new Error('Dynamic paths do not support $key (you should probably just join on this path)');
   }
@@ -382,7 +382,7 @@ function Dyno(path, fieldMap, event, updateFn) {
     }
     if( snap.val() !== null ) {
       // establish our listener at the correct dynamic id for values
-      ref = path.child(snap.val());
+      ref = path.ref.child(snap.val());
       ref.on(event, updateFn);
       util.log('Record.Dyno: monitoring %s', ref.toString()); //debug
     }

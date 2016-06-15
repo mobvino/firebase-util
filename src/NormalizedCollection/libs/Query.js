@@ -108,7 +108,7 @@ Query.prototype = {
   '$getRecord': function() { return this._rec; },
 
   /** @return {Firebase} */
-  '$getMaster': function() { return this._rec.getPathManager().first(); },
+  '$getMaster': function() { return this._rec.getPathManager().first().ref; },
 
   /** @return {Array} */
   '$getPaths': function() { return this._rec.getPathManager().getPaths(); },

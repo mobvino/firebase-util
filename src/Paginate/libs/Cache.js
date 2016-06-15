@@ -4,7 +4,7 @@ var Offset = require('./Offset');
 
 function Cache(outRef, sortField, maxRecordsLoaded) {
   util.log.debug('Cache: caching %s using field=%s maxRecordsLoaded=%d', outRef.toString(), sortField, maxRecordsLoaded);
-  this.offset = new Offset({field: sortField, max: maxRecordsLoaded, ref: outRef});
+  this.offset = new Offset({field: sortField, max: maxRecordsLoaded, ref: outRef.ref});
   this.outRef = outRef;
   this.inRef = null;
   this.queryRef = null;

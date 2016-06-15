@@ -13,7 +13,7 @@ var util = require('../../common');
  */
 function RecordSetEventManager(parentRec) {
   var pm = parentRec.getPathManager();
-  this.masterRef = pm.first();
+  this.masterRef = pm.first().ref;
   this.url = this.masterRef.toString();
   this.recList = new RecordList(parentRec, this.url);
   this.running = false;

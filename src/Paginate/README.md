@@ -329,6 +329,6 @@ ref.page.prev()
 Works in the same manner as regular once() callbacks, but only triggers for events within
 the current viewable scope (items in the current page or scroll window).
 
-#### ref()
+#### ref
 
 Returns this ReadOnlyRef

@@ -61,7 +61,7 @@ norm = norm.filter(
 );
 
 // get a reference we can use like a normal Firebase instance
-ref = norm;
+ref = norm.ref;
 
 // run it and see what we get
 ref.on('value', function(snap) {
@@ -183,7 +183,7 @@ This example sets `https://<instance>.firebaseio.com/path1/$pushid/foo` and
 var fb = new Firebase('https://<instance>.firebaseio.com');
 var ref = new Firebase.util.NormalizedCollection(fb.child('path1'), fb.child('path2'))
     .select('path1.foo', 'path2.bar')
-    ;
+    .ref;
 
 ref.push({ foo: 'foo value', bar: 'bar value' });
 ```
@@ -220,7 +220,7 @@ var norm = new Firebase.util.NormalizedRecord(
    [fb.child('users'), 'users', 'messages.user']
 );
 
-var ref = norm.select('messages.text', 'messages.user', 'users.name');
+var ref = norm.select('messages.text', 'messages.user', 'users.name').ref;
 ```
 
 Now the joined records would look like this:
@@ -251,7 +251,7 @@ be the fieldKey.
 ### NormalizedCollection
 
 A NormalizedCollection is used to create a map of paths and fields to the final data we want
-to fetch. Once a NormalizedCollection is complete, we call ref() to finalize it and to create
+to fetch. Once a NormalizedCollection is complete, we call .ref to finalize it and to create
 the actual ref we will use to synchronized data.
 
 #### NormalizedCollection(path, [path...])
@@ -283,7 +283,7 @@ data (fields not in the map will be left alone, even if they are not in the new 
 A client-side tool to filter the data that triggers events (e.g. `value`, `child_added`, etc).
 This does not affect write operations, only local records.
 
-#### ref()
+#### ref
 
     @returns {NormalizedRef} see below
 
@@ -292,7 +292,7 @@ fields, and filter provided.
 
 ### NormalizedRef
 
-A NormalizedRef is obtained from NormalizedCollection.prototype. It can be used like a
+A NormalizedRef is obtained from NormalizedCollection.prototype.ref. It can be used like a
 normal Firebase ref and implements the standard [Firebase API](https://www.firebase.com/docs/web/api/)
 with the caveats/exceptions listed below.
 
@@ -358,7 +358,7 @@ var ref3 = new Firebase('https://kato3.firebaseio.com/baz');
 
 var ref = new Firebase.util.NormalizedCollection(ref1, ref2, ref3)
     .select('foo.name', 'bar.color', 'baz.size')
-    ;
+    .ref;
 
 ref.child('record1').child('name'); // https://kato1.firebaseio.com/foo/record1/name
 ```
@@ -378,7 +378,7 @@ var ref3 = new Firebase('https://kato3.firebaseio.com/baz');
 
 var ref = new Firebase.util.NormalizedCollection(ref1, ref2, ref3)
     .select('foo.name', 'bar.color', 'baz.size')
-    ;
+    .ref;
 
 ref.parent; // null
 
@@ -405,7 +405,7 @@ var ref2 = new Firebase('https://kato2.firebaseio.com/bar');
 
 var ref = new Firebase.util.NormalizedCollection(ref1, [ref2, 'refTheTwo'])
     .select('foo.name', 'bar.color')
-    ;
+    .ref;
 
 ref.key(); // "[foo][refTheTwo]" (a merged collection)
 
@@ -427,7 +427,7 @@ var ref2 = new Firebase('https://kato2.firebaseio.com/bar');
 
 var ref = new Firebase.util.NormalizedCollection(ref1, [ref2, 'refTheTwo'])
     .select('foo.name', 'bar.color')
-    ;
+    .ref;
 
 // "[https://kato1.firebaseio.com/foo][https://kato2.firebaseio.com/bar]" (a merged collection)
 ref.toString();
