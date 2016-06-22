@@ -94,16 +94,16 @@ QUnit.module("RecordSet", setup);
 
 QUnit.test('ref is for the correct path/url', function(assert) {
   var nc = new firebase.util.NormalizedCollection(this.fbRef.child('users'), this.fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref();
+  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref;
   assert.equal(ref.toString(),
     '[' + this.fbRef.child('users').toString() + '][' + this.fbRef.child('nicknames').toString() + ']');
-  assert.equal(ref.key(), '[users][nicknames]');
+  assert.equal(ref.key, '[users][nicknames]');
 });
 
 QUnit.test('value event returns fully merged results', function(assert) {
   var done = assert.async();
   var nc = new firebase.util.NormalizedCollection(this.fbRef.child('users'), this.fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref();
+  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref;
   subscribeOnce(ref, function(snap) {
     assert.deepEqual(snap.val(), {
       chuck: {
@@ -130,7 +130,7 @@ QUnit.test('child_added triggers for correct keys', function(assert) {
     chuck: { name: 'Carlos Ray Norris', style: 'Chuck Kuk Do', nick: 'Chuck' }
   };
   var nc = new firebase.util.NormalizedCollection(this.fbRef.child('users'), this.fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref();
+  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref;
   subscribe(ref, 'child_added', function(snap) {
     var key = keys.shift();
     assert.equal(snap.key, key);
@@ -144,7 +144,7 @@ QUnit.test('set() writes correct data to each path', function(assert) {
   var done = assert.async();
   var fbRef = this.fbRef;
   var nc = new firebase.util.NormalizedCollection(fbRef.child('users'), fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref();
+  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref;
   ref.set({kato: {nick: 'Kato', name: 'katokato', style: 'MMA'}, bruce: null}, function(err) {
     assert.equal(err, null);
     subscribeOnce(fbRef.child('nicknames'), function(nickSnap) {
@@ -166,7 +166,7 @@ QUnit.test('update() writes correct data to each path', function(assert) {
   var done = assert.async();
   var fbRef = this.fbRef;
   var nc = new firebase.util.NormalizedCollection(fbRef.child('users'), fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref();
+  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref;
   ref.update({bruce: {nick: 'Brucie', style: 'MMA'}}, function(err) {
     assert.equal(err, null);
     subscribeOnce(fbRef.child('nicknames'), function(nickSnap) {
@@ -205,7 +205,7 @@ QUnit.test('manipulating data can trigger child_added and child_removed events f
       function(data) {
         return data.filtered !== true;
       }
-    ).ref();
+    ).ref;
 
     var adds = [], removes = [], changes = [], values = [];
     subscribe(normRef, 'child_added', function(snap) {
@@ -248,18 +248,18 @@ QUnit.module('Record', setup);
 
 QUnit.test('ref is for the correct path/url', function(assert) {
   var nc = new firebase.util.NormalizedCollection(this.fbRef.child('users'), this.fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref().child('bruce');
+  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref.child('bruce');
   assert.equal(ref.toString(),
     '[' + this.fbRef.child('users').child('bruce').toString() + '][' +
         this.fbRef.child('nicknames').child('bruce').toString() + ']');
-  assert.equal(ref.key(), 'bruce');
+  assert.equal(ref.key, 'bruce');
 });
 
 QUnit.test('value event returns fully merged results', function(assert) {
   assert.expect(1);
   var done = assert.async();
   var nc = new firebase.util.NormalizedCollection(this.fbRef.child('users'), this.fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', 'nicknames.$value').ref().child('bruce');
+  var ref = nc.select('users.name', 'users.style', 'nicknames.$value').ref.child('bruce');
   subscribeOnce(ref, function(snap) {
     assert.deepEqual(snap.val(), {name: "Bruce Lee", style: "Jeet Kune Do", $value: "Little Phoenix"});
     done();
@@ -274,7 +274,7 @@ QUnit.test('child_added triggers for correct keys', function(assert) {
     [this.fbRef.child('more_messages/TheDojo'), 'x'],
     [this.fbRef.child('users'), 'u', 'm.user']
   );
-  var ref = nc.select('m.text', 'm.user', 'x.more', 'u.name').ref().child('message1');
+  var ref = nc.select('m.text', 'm.user', 'x.more', 'u.name').ref.child('message1');
   // we do not get a child_added for "name" because it is a dynamic dependency
   var keys = ['text', 'user', 'more'];
   subscribe(ref, 'child_added', function(snap) {
@@ -288,7 +288,7 @@ QUnit.test('set() writes correct data to each path', function(assert) {
   var done = assert.async();
   var fbRef = this.fbRef;
   var nc = new firebase.util.NormalizedCollection(fbRef.child('users'), fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref().child('bruce');
+  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref.child('bruce');
   ref.set({nick: 'Brucie', name: 'brucebruce'}, function(err) {
     assert.equal(err, null);
     subscribeOnce(fbRef.child('nicknames/bruce'), function(nickSnap) {
@@ -307,7 +307,7 @@ QUnit.test('update() writes correct data to each path', function(assert) {
   var done = assert.async();
   var fbRef = this.fbRef;
   var nc = new firebase.util.NormalizedCollection(fbRef.child('users'), fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref().child('bruce');
+  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref.child('bruce');
   ref.update({nick: 'Brucie', name: 'brucebruce'}, function(err) {
     assert.equal(err, null);
     subscribeOnce(fbRef.child('nicknames/bruce'), function(nickSnap) {
@@ -325,17 +325,17 @@ QUnit.module('RecordField', setup);
 
 QUnit.test('ref is for the correct path/url', function(assert) {
   var nc = new firebase.util.NormalizedCollection(this.fbRef.child('users'), this.fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref().child('bruce/nick');
+  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref.child('bruce/nick');
   assert.equal(ref.toString(), this.fbRef.child('nicknames/bruce').toString());
 });
 
 QUnit.test('value event returns value for correct child path', function(assert) {
   var done = assert.async();
   var nc = new firebase.util.NormalizedCollection(this.fbRef.child('users'), this.fbRef.child('nicknames'));
-  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref().child('bruce/nick');
+  var ref = nc.select('users.name', 'users.style', {key: 'nicknames.$value', alias: 'nick'}).ref.child('bruce/nick');
   var fbRef = this.fbRef;
   subscribeOnce(ref, function(snap) {
-    assert.equal(snap.ref().toString(), fbRef.child('/nicknames/bruce').toString());
+    assert.equal(snap.ref.toString(), fbRef.child('/nicknames/bruce').toString());
     assert.deepEqual(snap.val(), "Little Phoenix");
     done();
   }, done);
@@ -345,7 +345,7 @@ QUnit.test('child_added triggers for correct keys', function(assert) {
   assert.expect(3);
   var done = assert.async();
   var nc = new firebase.util.NormalizedCollection(this.fbRef.child('feeds'));
-  var ref = nc.select('feeds.members').ref().child('TheDojo/members');
+  var ref = nc.select('feeds.members').ref.child('TheDojo/members');
   var keys = ['bruce', 'chuck', 'kato'];
   subscribe(ref, 'child_added', function(snap) {
     assert.equal(snap.key, keys.shift());
@@ -358,7 +358,7 @@ QUnit.test('set() writes correct data to each path', function(assert) {
   var done = assert.async();
   var fbRef = this.fbRef;
   var nc = new firebase.util.NormalizedCollection(fbRef.child('feeds'));
-  var ref = nc.select('feeds.members').ref().child('TheDojo/members');
+  var ref = nc.select('feeds.members').ref.child('TheDojo/members');
   ref.set({foo: 'bar'}, function(err) {
     assert.equal(err, null);
     fbRef.child('feeds/TheDojo/members').once('value', function(snap) {
@@ -373,7 +373,7 @@ QUnit.test('update() writes correct data to each path', function(assert) {
   var done = assert.async();
   var fbRef = this.fbRef;
   var nc = new firebase.util.NormalizedCollection(fbRef.child('feeds'));
-  var ref = nc.select('feeds.members').ref().child('TheDojo').child('members');
+  var ref = nc.select('feeds.members').ref.child('TheDojo').child('members');
   ref.update({foo: 'bar', chuck: false, kato: null}, function(err) {
     assert.equal(err, null);
     fbRef.child('feeds/TheDojo/members').once('value', function(snap) {
@@ -399,7 +399,7 @@ QUnit.test('child_added event is triggered when all set() ops have returned', fu
     'users.test',
     { 'key':'nicknames.$value', 'alias':'nick' }
   )
-  .ref();
+  .ref;
 
   var expectedKeys = ['bruce', 'chuck', 'seagal'];
   subscribe(ref, 'child_added', function(snap) {
@@ -544,7 +544,7 @@ QUnit.test('Realtime all the things (a big test of sequential ops with filtering
       return match;
     }
   )
-  .ref();
+  .ref;
 
   var eventMonitor = EventMonitor(assert, normRef, log);
   var runAllOps = initOpsRunner(eventMonitor, operations);

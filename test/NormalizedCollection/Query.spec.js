@@ -59,7 +59,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var ref = hp.stubNormRef(paths);
       var q = new Query(ref, ref.$getRecord());
@@ -70,7 +70,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var nref = hp.stubNormRef(paths);
       var masterRef = nref.$getMaster();
@@ -89,7 +89,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var ref = hp.stubNormRef(paths);
       var q = new Query(ref, ref.$getRecord());
@@ -100,7 +100,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var nref = hp.stubNormRef(paths);
       var masterRef = nref.$getMaster();
@@ -116,7 +116,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var ref = hp.stubNormRef(paths);
       var q = new Query(ref, ref.$getRecord());
@@ -127,7 +127,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var nref = hp.stubNormRef(paths);
       var masterRef = nref.$getMaster();
@@ -146,7 +146,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var ref = hp.stubNormRef(paths);
       var q = new Query(ref, ref.$getRecord());
@@ -157,7 +157,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var nref = hp.stubNormRef(paths);
       var masterRef = nref.$getMaster();
@@ -176,7 +176,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var ref = hp.stubNormRef(paths);
       var q = new Query(ref, ref.$getRecord());
@@ -187,7 +187,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var nref = hp.stubNormRef(paths);
       var masterRef = nref.$getMaster();
@@ -206,7 +206,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var ref = hp.stubNormRef(paths);
       var q = new Query(ref, ref.$getRecord());
@@ -217,7 +217,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var nref = hp.stubNormRef(paths);
       var masterRef = nref.$getMaster();
@@ -236,7 +236,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var ref = hp.stubNormRef(paths);
       var q = new Query(ref, ref.$getRecord());
@@ -247,7 +247,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var nref = hp.stubNormRef(paths);
       var masterRef = nref.$getMaster();
@@ -266,7 +266,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var ref = hp.stubNormRef(paths);
       var q = new Query(ref, ref.$getRecord());
@@ -277,7 +277,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var nref = hp.stubNormRef(paths);
       var masterRef = nref.$getMaster();
@@ -296,7 +296,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var ref = hp.stubNormRef(paths);
       var q = new Query(ref, ref.$getRecord());
@@ -307,7 +307,7 @@ describe('Query', function() {
       // we need to use real paths or the Transmogrifier will fail
       // since it uses instanceof Path, so we'll inject them here
       var paths = _.map(hp.stubPaths(), function(p) {
-        return new Path([p.ref(), p.name(), p.getDependency()]);
+        return new Path([p.ref, p.name(), p.getDependency()]);
       });
       var nref = hp.stubNormRef(paths);
       var masterRef = nref.$getMaster();
@@ -326,7 +326,7 @@ describe('Query', function() {
       var ref = {};
       var rec = {setRef: function() {}};
       var q = new Query(ref, rec);
-      expect(q.ref()).toBe(ref);
+      expect(q.ref).toBe(ref);
     });
   });
 });

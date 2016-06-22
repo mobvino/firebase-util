@@ -143,7 +143,7 @@ describe('RecordSet', function() {
       var snaps = createSnaps(fm);
       var childSnaps = recs.getChildSnaps(snaps, 'r1');
       expect(childSnaps.length).toBe(1);
-      expect(childSnaps[0].key()).toBe('r1');
+      expect(childSnaps[0].key).toBe('r1');
     });
 
     it('should return an empty array for non-existing key', function() {
@@ -312,7 +312,7 @@ describe('RecordSet', function() {
       var fm = makeFieldMap(makePathMgr());
       var rs = new RecordSet(fm);
       var refs = _.map(rs.getPathManager().getPaths(), function(p) {
-        var ref = p.ref();
+        var ref = p.ref;
         spyOn(ref, 'remove');
         return ref;
       });

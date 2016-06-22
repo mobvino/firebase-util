@@ -26,7 +26,7 @@ describe('NormalizedSnapshot', function() {
     it('should have a ref for the correct child', function() {
       var ref = hp.stubNormRef();
       var snap = new NormalizedSnapshot(ref, hp.snaps(0)).child('bar');
-      expect(snap.ref().toString()).toBe(ref.child('bar').toString());
+      expect(snap.ref.toString()).toBe(ref.child('bar').toString());
     });
 
     it('should work for paths with / (nested children)', function() {
@@ -62,7 +62,7 @@ describe('NormalizedSnapshot', function() {
       var snap = new NormalizedSnapshot(ref, hp.snaps(true));
       var keys = [];
       snap.forEach(function(ss) {
-        keys.push(ss.key());
+        keys.push(ss.key);
       });
       expect(keys).toEqual(expKeys);
     });
@@ -75,7 +75,7 @@ describe('NormalizedSnapshot', function() {
       );
       var keys = [];
       snap.forEach(function(ss) {
-        keys.push(ss.key());
+        keys.push(ss.key);
       });
       expect(keys).toEqual(expKeys);
     });
@@ -211,13 +211,13 @@ describe('NormalizedSnapshot', function() {
     it('should return the original ref', function() {
       var ref = hp.stubNormRef();
       var snap = new NormalizedSnapshot(ref, hp.snaps(true));
-      expect(snap.ref()).toBe(ref);
+      expect(snap.ref).toBe(ref);
     });
 
     it('should return correct child after .child() is used', function() {
       var ref = hp.stubNormRef();
       var snap = new NormalizedSnapshot(ref, hp.snaps(true)).child('foo');
-      expect(snap.ref().toString()).toBe(ref.child('foo').toString());
+      expect(snap.ref.toString()).toBe(ref.child('foo').toString());
     });
   });
 

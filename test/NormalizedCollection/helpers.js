@@ -158,7 +158,7 @@ exports.stubNormSnap = function(ref, data, pri) {
     ['key', 'ref', 'val', 'forEach', 'child', 'hasChild', 'getPriority', 'exportVal']
   );
   obj.key.and.callFake(
-    function() { return ref.key(); }
+    function() { return ref.key; }
   );
   obj.ref.and.callFake(
     function() { return ref; }
@@ -169,7 +169,7 @@ exports.stubNormSnap = function(ref, data, pri) {
         var cdata = parent.$$rawData();
         var pri = parent.getPriority();
         return exports.stubNormSnap(
-          parent.ref().child(k),
+          parent.ref.child(k),
           _.has(cdata, k)? cdata[k] : null,
           typeof pri === 'function'? pri : null
         );
@@ -204,7 +204,7 @@ exports.stubNormSnap = function(ref, data, pri) {
         var out = {};
         if( pri !== null ) { out['.priority'] = pri; }
         obj.forEach(function(ss) {
-          out[ss.key()] = ss.exportVal();
+          out[ss.key] = ss.exportVal();
         });
         return out;
       }
@@ -258,7 +258,7 @@ exports.stubNormRef = function(pathList, fieldList) {
   obj.toString.and.callFake(function() { return pathString(paths); });
   obj.$getRecord.and.callFake(function() { return rec; });
   obj.$$firstPath = function() { return firstFromCollection(paths); };
-  obj.$getMaster.and.callFake(function() { return rec.getPathManager().first().ref(); });
+  obj.$getMaster.and.callFake(function() { return rec.getPathManager().first().ref; });
   obj.$getPaths.and.callFake(function() { return rec.getPathManager().getPaths(); });
   return obj;
 };
@@ -372,7 +372,7 @@ exports.stubRec = function(pathList, fieldList, ref) {
     var f = fieldMap.getField(fieldName);
     var key = f? f.alias : fieldName;
     return [(_.find(snaps, function(ss) {
-      return !f || f.url === ss.ref().toString();
+      return !f || f.url === ss.ref.toString();
     })||snaps[0]).child(key)];
   });
   rec.forEachKey.and.callFake(function(snaps, iterator, context) {
@@ -384,7 +384,7 @@ exports.stubRec = function(pathList, fieldList, ref) {
           break;
         default:
           return !!_.find(snaps, function(snap) {
-            return snap.hasChild(f.id) && snap.ref().toString() === f.path.url();
+            return snap.hasChild(f.id) && snap.ref.toString() === f.path.url();
           });
       }
     }
@@ -480,7 +480,7 @@ exports.stubSnap = function(fbRef, data, pri) {
   );
   obj.key.and.callFake(
     function() {
-      return fbRef.key();
+      return fbRef.key;
     }
   );
   obj.ref.and.callFake(
@@ -491,7 +491,7 @@ exports.stubSnap = function(fbRef, data, pri) {
       return denestChildKey(obj, key, function(nextParent, nextKey) {
         var cdata = nextParent.val();
         return exports.stubSnap(
-          nextParent.ref().child(nextKey),
+          nextParent.ref.child(nextKey),
           _.has(cdata, nextKey)? cdata[nextKey] : null,
             typeof pri === 'function'? pri : null
         );
@@ -531,7 +531,7 @@ exports.stubSnap = function(fbRef, data, pri) {
         out = {};
         if( pri !== null ) { out['.priority'] = pri; }
         obj.forEach(function(ss) {
-          out[ss.key()] = ss.exportVal();
+          out[ss.key] = ss.exportVal();
         });
       }
       else if( pri !== null ) {

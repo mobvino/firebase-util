@@ -14,7 +14,7 @@ describe('RecordSetEventManager', function() {
 
     it('should invoke on for master ref', function() {
       var rec = stubRec();
-      var spy = spyOn(rec.getPathManager().first().ref(), 'on');
+      var spy = spyOn(rec.getPathManager().first().ref, 'on');
       var em = new RecordSetEventManager(rec);
       em.start();
       expect(spy).toHaveBeenCalledWith('child_added',
@@ -68,7 +68,7 @@ describe('RecordSetEventManager', function() {
 
     it('should not invoke off if start() never called', function() {
       var rec = stubRec();
-      var spy = spyOn(rec.getPathManager().first().ref(), 'off');
+      var spy = spyOn(rec.getPathManager().first().ref, 'off');
       var em = new RecordSetEventManager(rec);
       em.stop();
       expect(spy.calls.count()).toBe(0);
@@ -102,7 +102,7 @@ describe('RecordSetEventManager', function() {
       var data = {foo: {bar: {baz: 'foo'}}};
 
       var rec = stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       new RecordSetEventManager(rec).start();
 
       // prevent value event from firing and marking data as loaded
@@ -118,7 +118,7 @@ describe('RecordSetEventManager', function() {
       ref.flush();
 
       // add a new record
-      var id = ref.push(data).key();
+      var id = ref.push(data).key;
       ref.flush();
       rec.trigger.calls.reset();
       rec.child(id).trigger(stubSnapshotFactory(ref, 'value', null, data));
@@ -166,13 +166,13 @@ describe('RecordSetEventManager', function() {
       var data = {foo: {bar: {baz: 'foo'}}};
 
       var rec = stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       new RecordSetEventManager(rec).start();
 
       cancelOnce(ref);
 
       // add a new record
-      var id = ref.push(data).key();
+      var id = ref.push(data).key;
       ref.flush();
       rec.child(id).trigger(stubSnapshotFactory(ref, 'value', null, data));
       expect(rec.trigger).not.toHaveBeenCalledWith(
@@ -197,7 +197,7 @@ describe('RecordSetEventManager', function() {
         ' has not returned a `value` event yet (i.e. record is not loaded)', function() {
       var stub = loadWithStub();
       var ref = stub.ref;
-      var id = ref.push(-99).key();
+      var id = ref.push(-99).key;
       ref.flush();
       // do not do rec.child(id).trigger() here, to simulate value not being called yet
 
@@ -249,17 +249,17 @@ describe('RecordSetEventManager', function() {
     it('should not trigger a value event if initial load is not completed', function() {
       var data = 99;
       var rec = stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       new RecordSetEventManager(rec).start();
 
       cancelOnce(ref);
 
       // add a new record
-      var a = ref.push(data).key();
+      var a = ref.push(data).key;
       ref.flush();
       rec.child(a).trigger(stubSnapshotFactory(ref.child(a), 'value', null, data));
 
-      var b = ref.push(data).key();
+      var b = ref.push(data).key;
       ref.flush();
       rec.child(b).trigger(stubSnapshotFactory(ref.child(b), 'value', null, data));
 
@@ -278,7 +278,7 @@ describe('RecordSetEventManager', function() {
       var stub = loadWithStub();
       var ref = stub.ref;
 
-      var a = ref.push({foo: 'bar'}).key();
+      var a = ref.push({foo: 'bar'}).key;
       stub.add({bar: 'baz'});
 
       // uncomment this to make it fail
@@ -322,13 +322,13 @@ describe('RecordSetEventManager', function() {
 
     it('should not trigger value event if initial load is not completed', function() {
       var rec = stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       new RecordSetEventManager(rec).start();
 
       cancelOnce(ref);
 
       // add a new record
-      var id = ref.push(99).key();
+      var id = ref.push(99).key;
       ref.flush();
       rec.child(id).trigger(stubSnapshotFactory(ref, 'value', null, 99));
       rec.child(id).trigger(stubSnapshotFactory(ref, 'value', null, 100));
@@ -353,11 +353,11 @@ describe('RecordSetEventManager', function() {
   function loadWithStub(data) {
     var id = null;
     var rec = stubRec();
-    var ref = rec.getPathManager().first().ref();
+    var ref = rec.getPathManager().first().ref;
     var mgr = new RecordSetEventManager(rec).start();
 
     function addFn(data) {
-      var id = ref.push(data).key();
+      var id = ref.push(data).key;
       ref.flush();
       var cb = rec.child(id).$spies[0];
       cb.fn.call(cb.ctx, hp.stubSnap(ref.child(id), data));

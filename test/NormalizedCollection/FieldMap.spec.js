@@ -283,7 +283,7 @@ describe('FieldMap', function() {
         {f20: 'foo'}
       );
       var res = map.snapFor(snaps, 'bar');
-      expect(res.ref().toString()).toBe(map.getPath('p2').url());
+      expect(res.ref.toString()).toBe(map.getPath('p2').url());
     });
 
     it('returns correct snapshot for dynamic path, based on field', function() {
@@ -296,9 +296,9 @@ describe('FieldMap', function() {
         function(pathName) {
           var path = map.getPath(pathName);
           if( path.name() === 'p4' ) {
-            return path.ref().child('hello');
+            return path.ref.child('hello');
           }
-          return path.ref();
+          return path.ref;
         },
         {f10: 'bar'},
         {f20: 'foo'},
@@ -307,7 +307,7 @@ describe('FieldMap', function() {
       );
       var res = map.snapFor(snaps, 'boo');
       expect(res).toBeAn('object');
-      expect(res.ref().toString()).toBe(map.getPath('p4').url()+'/hello');
+      expect(res.ref.toString()).toBe(map.getPath('p4').url()+'/hello');
     });
   });
 

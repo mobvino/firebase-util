@@ -1,7 +1,7 @@
 QUnit.config.testTimeout = 5000;
 
 var setup = {
-  beforeEach: function(assert) {
+  beforeEach: function(assert) {   
     this.fbRef = firebase.database().ref().child(TEST_CHILD).push();
     this.fbRef.onDisconnect().remove();
     this.fbRef.set(DEFAULT_DATA, assert.async());

@@ -51,7 +51,7 @@ describe('RecordField', function() {
       var res = rec.getChildSnaps(hp.snaps({foo: 'bar'}), 'foo');
       expect(res).toBeAn('array');
       expect(res.length).toBe(1);
-      expect(res[0].key()).toBe('foo');
+      expect(res[0].key).toBe('foo');
       expect(res[0].val()).toBe('bar');
     });
   });
@@ -106,28 +106,28 @@ describe('RecordField', function() {
   describe('saveData', function() {
     it('calls update on the master ref if isUpdate is true', function() {
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
-      var spy = spyOn(rec.getPathManager().first().ref(), 'update');
+      var spy = spyOn(rec.getPathManager().first().ref, 'update');
       rec.saveData({foo: 'bar'}, {isUpdate: true});
       expect(spy).toHaveBeenCalledWith({foo: 'bar'}, jasmine.any(Function));
     });
 
     it('calls set on the master ref if isUpdate is false', function() {
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
-      var spy = spyOn(rec.getPathManager().first().ref(), 'set');
+      var spy = spyOn(rec.getPathManager().first().ref, 'set');
       rec.saveData({foo: 'bar'}, {isUpdate: false});
       expect(spy).toHaveBeenCalledWith({foo: 'bar'}, jasmine.any(Function));
     });
 
     it('uses setWithPriority if priority is given and isUpdate === false', function() {
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
-      var spy = spyOn(rec.getPathManager().first().ref(), 'setWithPriority');
+      var spy = spyOn(rec.getPathManager().first().ref, 'setWithPriority');
       rec.saveData({foo: 'bar'}, {isUpdate: false, priority: null});
       expect(spy).toHaveBeenCalledWith({foo: 'bar'}, null, jasmine.any(Function));
     });
 
     it('uses .priority if priority is given and isUpdate === true', function() {
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
-      var spy = spyOn(rec.getPathManager().first().ref(), 'update');
+      var spy = spyOn(rec.getPathManager().first().ref, 'update');
       rec.saveData({foo: 'bar'}, {isUpdate: true, priority: 0});
       expect(spy).toHaveBeenCalledWith({foo: 'bar', '.priority': 0}, jasmine.any(Function));
     });
@@ -141,7 +141,7 @@ describe('RecordField', function() {
 
     it('saves primitives with isUpdate === false', function() {
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
-      var spy = spyOn(rec.getPathManager().first().ref(), 'set');
+      var spy = spyOn(rec.getPathManager().first().ref, 'set');
       rec.saveData(false, {isUpdate: false});
       expect(spy).toHaveBeenCalledWith(false, jasmine.any(Function));
     });
@@ -150,7 +150,7 @@ describe('RecordField', function() {
       var spy = jasmine.createSpy('set callback');
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
       rec.saveData(false, {isUpdate: false, callback: spy});
-      rec.getPathManager().first().ref().flush();
+      rec.getPathManager().first().ref.flush();
       expect(spy).toHaveBeenCalledWith(null);
     });
 
@@ -164,7 +164,7 @@ describe('RecordField', function() {
       }
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
       rec.saveData({foo: 'bar'}, {isUpdate: false, callback: fn, context: ctx});
-      rec.getPathManager().first().ref().flush();
+      rec.getPathManager().first().ref.flush();
       expect(called).toBe(true);
     });
 
@@ -172,7 +172,7 @@ describe('RecordField', function() {
       var spy = jasmine.createSpy('update callback');
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
       rec.saveData({foo: 'bar'}, {isUpdate: true, callback: spy});
-      rec.getPathManager().first().ref().flush();
+      rec.getPathManager().first().ref.flush();
       expect(spy).toHaveBeenCalledWith(null);
     });
 
@@ -186,7 +186,7 @@ describe('RecordField', function() {
       }
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
       rec.saveData({foo: 'bar'}, {isUpdate: true, callback: fn, context: ctx});
-      rec.getPathManager().first().ref().flush();
+      rec.getPathManager().first().ref.flush();
       expect(called).toBe(true);
     });
   });
@@ -194,14 +194,14 @@ describe('RecordField', function() {
   describe('#_start', function() {
     it('should invoke on() for ref', function() {
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
-      var spy = spyOn(rec.getPathManager().first().ref(), 'on');
+      var spy = spyOn(rec.getPathManager().first().ref, 'on');
       rec._start('value');
       expect(spy).toHaveBeenCalled();
     });
 
     it('should use correct event', function() {
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
-      var spy = spyOn(rec.getPathManager().first().ref(), 'on');
+      var spy = spyOn(rec.getPathManager().first().ref, 'on');
       rec._start('value');
       expect(spy.calls.argsFor(0)[0]).toBe('value');
     });
@@ -210,7 +210,7 @@ describe('RecordField', function() {
   describe('#_stop', function() {
     it('should invoke off() for ref', function() {
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
-      var spy = spyOn(rec.getPathManager().first().ref(), 'off');
+      var spy = spyOn(rec.getPathManager().first().ref, 'off');
       rec._start('value');
       rec._stop('value');
       expect(spy).toHaveBeenCalled();
@@ -218,7 +218,7 @@ describe('RecordField', function() {
 
     it('should use correct event', function() {
       var rec = new RecordField(hp.stubFieldMap(['p1,$value,foo'], ['p1']));
-      var spy = spyOn(rec.getPathManager().first().ref(), 'off');
+      var spy = spyOn(rec.getPathManager().first().ref, 'off');
       rec._start('value');
       rec._stop('value');
       expect(spy.calls.argsFor(0)[0]).toBe('value');

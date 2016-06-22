@@ -42,7 +42,7 @@ describe('Record', function() {
     it('should pick the correct path to descend from', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
       var child = rec.makeChild('bar');
-      expect(child.getPathManager().first().parent().url()).toBe(rec.getPathManager().getPath('p2').url());
+      expect(child.getPathManager().first().parent.url()).toBe(rec.getPathManager().getPath('p2').url());
     });
 
     it('should have exactly one field', function() {
@@ -55,7 +55,7 @@ describe('Record', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
       var child = rec.makeChild('notafieldmatch');
       expect(child.getPathManager().count()).toBe(1);
-      expect(child.getPathManager().first().parent().name()).toBe('p1');
+      expect(child.getPathManager().first().parent.name()).toBe('p1');
     });
   });
 
@@ -73,7 +73,7 @@ describe('Record', function() {
     it('should be the snapshot for the correct child key', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
       var snaps = rec.getChildSnaps(createSnaps(defaultIdFn, {f11: 'fooval'}, {f99: 'barval'}, true, false), 'foo');
-      expect(snaps[0].key()).toBe('f11');
+      expect(snaps[0].key).toBe('f11');
       expect(snaps[0].val()).toBe('fooval');
     });
   });
@@ -268,7 +268,7 @@ describe('Record', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
       var refs = _.map(rec.getPathManager().getPaths(), function(p) {
         if( !p.hasDependency() ) {
-          var ref = p.ref();
+          var ref = p.ref;
           spyOn(ref, 'on').and.callThrough();
           return ref;
         }
@@ -283,7 +283,7 @@ describe('Record', function() {
 
     it('should not invoke on() twice for same event', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
-      var ref = rec.getPathManager().getPath('p1').ref();
+      var ref = rec.getPathManager().getPath('p1').ref;
       spyOn(ref, 'on');
       rec._start('value');
       rec._start('value');
@@ -307,8 +307,8 @@ describe('Record', function() {
 
     it('should listen to dynamic paths', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
-      var depRef = rec.getPathManager().getPath('p3').ref();
-      var dynRef = rec.getPathManager().getPath('p4').ref().child('hello');
+      var depRef = rec.getPathManager().getPath('p3').ref;
+      var dynRef = rec.getPathManager().getPath('p4').ref.child('hello');
       spyOn(depRef, 'on').and.callThrough();
       spyOn(dynRef, 'on').and.callThrough();
       rec._start('value');
@@ -326,7 +326,7 @@ describe('Record', function() {
     it('should not call off() if on() never called', function () {
       var rec = new Record(makeFieldMap(makePathMgr()));
       var refs = _.map(rec.getPathManager().getPaths(), function (p) {
-        var ref = p.ref();
+        var ref = p.ref;
         spyOn(ref, 'off');
         return ref;
       });
@@ -341,7 +341,7 @@ describe('Record', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
       var refs = _.map(rec.getPathManager().getPaths(), function (p) {
         if( !p.hasDependency() ) {
-          var ref = p.ref();
+          var ref = p.ref;
           spyOn(ref, 'off');
           return ref;
         }
@@ -358,7 +358,7 @@ describe('Record', function() {
 
     it('should invoke off() for multiple events', function () {
       var rec = new Record(makeFieldMap(makePathMgr()));
-      var ref = rec.getPathManager().getPath('p2').ref();
+      var ref = rec.getPathManager().getPath('p2').ref;
       spyOn(ref, 'off');
       rec._start('value');
       rec._start('child_removed');
@@ -375,10 +375,10 @@ describe('Record', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
       var spies = [];
       var pm = rec.getPathManager();
-      var spy1 = spyOn(pm.getPath('p1').ref(), 'update');
-      var spy2 = spyOn(pm.getPath('p2').ref(), 'update');
-      var spy3 = spyOn(pm.getPath('p3').ref(), 'set');
-      var spy4 = spyOn(pm.getPath('p4').ref().child('p3val.value'), 'set');
+      var spy1 = spyOn(pm.getPath('p1').ref, 'update');
+      var spy2 = spyOn(pm.getPath('p2').ref, 'update');
+      var spy3 = spyOn(pm.getPath('p3').ref, 'set');
+      var spy4 = spyOn(pm.getPath('p4').ref.child('p3val.value'), 'set');
       rec.saveData({
         f10: 'f10.value', foo: 'foo.value', // p1
         bar: 'bar.value', // p2
@@ -405,8 +405,8 @@ describe('Record', function() {
 
     it('discards children not in the map', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
-      var ref1 = rec.getPathManager().getPath('p1').ref();
-      var ref2 = rec.getPathManager().getPath('p2').ref();
+      var ref1 = rec.getPathManager().getPath('p1').ref;
+      var ref2 = rec.getPathManager().getPath('p2').ref;
       spyOn(ref1, 'update');
       spyOn(ref2, 'update');
       rec.saveData({
@@ -424,7 +424,7 @@ describe('Record', function() {
 
     it('deletes fields in the map but not the data', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       spyOn(ref, 'update');
       rec.saveData({
         f10: 'f10.value'
@@ -436,7 +436,7 @@ describe('Record', function() {
       var spy = jasmine.createSpy('update callback');
       var rec = new Record(makeFieldMap(makePathMgr()));
       var refs = _.map(rec.getPathManager().getPaths(), function(p) {
-        return p.ref();
+        return p.ref;
       });
       rec.saveData({
         f10: 'f10.value', bar: 'bar', p3val: 'p3value', nest: { p4val: 'p4value' }
@@ -457,7 +457,7 @@ describe('Record', function() {
       });
       var rec = new Record(makeFieldMap(makePathMgr()));
       var refs = _.map(rec.getPathManager().getPaths(), function(p) {
-        return p.ref();
+        return p.ref;
       });
       rec.saveData({
         f10: 'f10.value'
@@ -473,7 +473,7 @@ describe('Record', function() {
       var spy = jasmine.createSpy('update callback');
       var rec = new Record(makeFieldMap(makePathMgr()));
       var refs = _.map(rec.getPathManager().getPaths(), function(p) {
-        return p.ref().autoFlush();
+        return p.ref.autoFlush();
       });
       refs[1].failNext('update', err);
       rec.saveData({foo: 'bar'}, {isUpdate: false, callback: spy});
@@ -485,7 +485,7 @@ describe('Record', function() {
       var spies = [];
       _.each(rec.getPathManager().getPaths(), function(p) {
         if( !p.hasDependency() ) {
-          spies.push(spyOn(p.ref(), 'remove'));
+          spies.push(spyOn(p.ref, 'remove'));
         }
       });
       rec.saveData(null, {isUpdate: false});
@@ -496,7 +496,7 @@ describe('Record', function() {
 
     it('only updates fields provided if isUpdate === true', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
-      var ref = rec.getPathManager().getPath('p1').ref();
+      var ref = rec.getPathManager().getPath('p1').ref;
       spyOn(ref, 'update');
       rec.saveData({
         f10: 'f10.value', foo: 'foo.value', // p1
@@ -521,7 +521,7 @@ describe('Record', function() {
         new Path([hp.mockRef(PATHS.p1.url), PATHS.p1.alias])
       ]);
       var rec = new Record(makeFieldMap(mgr));
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       spyOn(ref, 'set');
       rec.saveData(false, {isUpdate: false});
       expect(ref.set).toHaveBeenCalledWith(false, jasmine.any(Function));
@@ -536,7 +536,7 @@ describe('Record', function() {
 
     it('observes priority and adds .priority to the master path', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       spyOn(ref, 'update');
       rec.saveData({foo: 'bar'}, {isUpdate: true, priority: 0});
       expect(ref.update).toHaveBeenCalledWith({f11: 'bar', '.priority': 0}, jasmine.any(Function));
@@ -547,7 +547,7 @@ describe('Record', function() {
         new Path([hp.mockRef(PATHS.p1.url), PATHS.p1.alias])
       ]);
       var rec = new Record(makeFieldMap(mgr));
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       spyOn(ref, 'setWithPriority');
       rec.saveData('foo', {isUpdate: false, priority: 'apples'});
       expect(ref.setWithPriority).toHaveBeenCalledWith('foo', 'apples', jasmine.any(Function));
@@ -555,7 +555,7 @@ describe('Record', function() {
 
     it('accepts .value', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       spyOn(ref, 'update');
       rec.saveData({foo: {'.value': 'bar'}}, {isUpdate: true});
       expect(ref.update).toHaveBeenCalledWith({f11: {'.value': 'bar'}}, jasmine.any(Function));
@@ -563,7 +563,7 @@ describe('Record', function() {
 
     it('accepts .priority', function() {
       var rec = new Record(makeFieldMap(makePathMgr()));
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       spyOn(ref, 'update');
       rec.saveData({foo: {'.value': 'bar', '.priority': 0}}, {isUpdate: true});
       expect(ref.update).toHaveBeenCalledWith({f11: {'.value': 'bar', '.priority': 0}}, jasmine.any(Function));

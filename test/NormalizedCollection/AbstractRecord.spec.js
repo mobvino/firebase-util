@@ -153,9 +153,9 @@ describe('AbstractRecord', function() {
     var ref = hp.mockRef(key);
     return {
       event: event,
-      key: ref.key(),
+      key: ref.key,
       prevChild: prevChild,
-      toString: function() { return 'FakeSnapshotFactory(' + ref.key() + ')'; },
+      toString: function() { return 'FakeSnapshotFactory(' + ref.key + ')'; },
       create: function() {
         return hp.stubSnap(ref, data);
       }

@@ -25,7 +25,7 @@ describe('NormalizedRef', function() {
       var rec = hp.stubRec();
       var parent = new NormalizedRef(rec);
       var child = parent.child('foo');
-      expect(child.parent()).toBe(parent);
+      expect(child.parent).toBe(parent);
     });
 
     it('accepts slashes in the path and properly nests them', function() {
@@ -39,40 +39,40 @@ describe('NormalizedRef', function() {
       var parent = new NormalizedRef(rec);
       var child = parent.child('foo/bar/baz');
       _.each(['baz', 'bar', 'foo'], function(test) {
-        expect(child.key()).toBe(test);
-        child = child.parent();
+        expect(child.key).toBe(test);
+        child = child.parent;
       });
     });
   });
   
   describe('parent', function () {
     it('returns null for the root ref', function() {
-      expect(new NormalizedRef(hp.stubRec()).parent()).toBeNull();
+      expect(new NormalizedRef(hp.stubRec()).parent).toBeNull();
     });
 
     it('returns parent if it is a child path', function() {
       var parent = new NormalizedRef(hp.stubRec());
       var child = parent.child('foo');
-      expect(child.parent()).toBe(parent);
+      expect(child.parent).toBe(parent);
     });
   });
   
   describe('root', function () {
     it('returns same ref for the root ref', function() {
       var ref = new NormalizedRef(hp.stubRec());
-      expect(ref.root()).toBe(ref);
+      expect(ref.root).toBe(ref);
     });
 
     it('returns parent for a direct child', function() {
       var parent = new NormalizedRef(hp.stubRec());
       var child = parent.child('foo');
-      expect(child.root()).toBe(parent);
+      expect(child.root).toBe(parent);
     });
 
     it('returns the root for a deeply nested child', function() {
       var parent = new NormalizedRef(hp.stubRec());
       var child = parent.child('foo/bar/baz/boo');
-      expect(child.root()).toBe(parent);
+      expect(child.root).toBe(parent);
     });
   });
   
@@ -87,13 +87,13 @@ describe('NormalizedRef', function() {
             function(p) { return p.name(); })
             .join('][') +
           ']';
-      expect(ref.key()).toBe(exp);
+      expect(ref.key).toBe(exp);
     });
 
     it('is the path name if there is only one path', function() {
       var rec = hp.stubRec(['p1']);
       var ref = new NormalizedRef(rec);
-      expect(ref.key()).toBe(rec.getPathManager().first().name());
+      expect(ref.key).toBe(rec.getPathManager().first().name());
     });
   });
   
@@ -166,14 +166,14 @@ describe('NormalizedRef', function() {
       var ref = new NormalizedRef(rec);
       var mock = ref.$getMaster();
       var res = ref.push();
-      expect(res.key()).toBe(mock._lastAutoId);
+      expect(res.key).toBe(mock._lastAutoId);
     });
 
     it('returns a child whose parent is the original ref', function() {
       var rec = hp.stubRec();
       var ref = new NormalizedRef(rec);
       var res = ref.push();
-      expect(res.parent()).toBe(ref);
+      expect(res.parent).toBe(ref);
     });
 
     it('calls saveData() on child rec with isUpdate === false and correct data', function() {
@@ -183,7 +183,7 @@ describe('NormalizedRef', function() {
       var rec = hp.stubRec();
       var ref = new NormalizedRef(rec);
       var res = ref.push(dat, cb, ctx);
-      expect(rec.child(res.key()).saveData).toHaveBeenCalledWith(dat, {
+      expect(rec.child(res.key).saveData).toHaveBeenCalledWith(dat, {
          callback: cb, context: ctx, isUpdate: false
       });
     });
@@ -240,12 +240,12 @@ describe('NormalizedRef', function() {
       var rec = hp.stubRec();
       var paths = rec.getPathManager().getPaths();
       _.each(paths, function(p) {
-        spyOn(p.ref(), 'goOffline');
+        spyOn(p.ref, 'goOffline');
       });
       new NormalizedRef(rec).goOffline();
       expect(paths.length).toBeGreaterThan(1);
       _.each(paths, function(p) {
-        expect(p.ref().goOffline).toHaveBeenCalled();
+        expect(p.ref.goOffline).toHaveBeenCalled();
       });
     });
   });
@@ -255,12 +255,12 @@ describe('NormalizedRef', function() {
       var rec = hp.stubRec();
       var paths = rec.getPathManager().getPaths();
       _.each(paths, function(p) {
-        spyOn(p.ref(), 'goOnline');
+        spyOn(p.ref, 'goOnline');
       });
       new NormalizedRef(rec).goOnline();
       expect(paths.length).toBeGreaterThan(1);
       _.each(paths, function(p) {
-        expect(p.ref().goOnline).toHaveBeenCalled();
+        expect(p.ref.goOnline).toHaveBeenCalled();
       });
     });
   });
@@ -269,7 +269,7 @@ describe('NormalizedRef', function() {
   describe('auth', function () {
     it('calls auth() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'auth');
       new NormalizedRef(rec).auth('abc123');
       expect(spy).toHaveBeenCalled();
@@ -279,7 +279,7 @@ describe('NormalizedRef', function() {
   describe('unauth', function () {
     it('calls unauth() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'unauth');
       new NormalizedRef(rec).unauth();
       expect(spy).toHaveBeenCalled();
@@ -289,7 +289,7 @@ describe('NormalizedRef', function() {
   describe('authWithCustomToken', function () {
     it('calls authWithCustomToken() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'authWithCustomToken');
       new NormalizedRef(rec).authWithCustomToken('abc123');
       expect(spy).toHaveBeenCalled();
@@ -299,7 +299,7 @@ describe('NormalizedRef', function() {
   describe('authAnonymously', function () {
     it('calls authAnonymously() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'authAnonymously');
       new NormalizedRef(rec).authAnonymously('abc123');
       expect(spy).toHaveBeenCalled();
@@ -309,7 +309,7 @@ describe('NormalizedRef', function() {
   describe('authWithPassword', function () {
     it('calls authWithPassword() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'authWithPassword');
       new NormalizedRef(rec).authWithPassword('abc123');
       expect(spy).toHaveBeenCalled();
@@ -319,7 +319,7 @@ describe('NormalizedRef', function() {
   describe('authWithOAuthPopup', function () {
     it('calls authWithOAuthPopup() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'authWithOAuthPopup');
       new NormalizedRef(rec).authWithOAuthPopup('abc123');
       expect(spy).toHaveBeenCalled();
@@ -329,7 +329,7 @@ describe('NormalizedRef', function() {
   describe('authWithOAuthRedirect', function () {
     it('calls authWithOAuthRedirect() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'authWithOAuthRedirect');
       new NormalizedRef(rec).authWithOAuthRedirect('abc123');
       expect(spy).toHaveBeenCalled();
@@ -339,7 +339,7 @@ describe('NormalizedRef', function() {
   describe('authWithOAuthToken', function () {
     it('calls authWithOAuthToken() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'authWithOAuthToken');
       new NormalizedRef(rec).authWithOAuthToken('abc123');
       expect(spy).toHaveBeenCalled();
@@ -349,7 +349,7 @@ describe('NormalizedRef', function() {
   describe('getAuth', function () {
     it('calls getAuth() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'getAuth');
       new NormalizedRef(rec).getAuth('abc123');
       expect(spy).toHaveBeenCalled();
@@ -358,7 +358,7 @@ describe('NormalizedRef', function() {
     it('returns the result of the master ref', function() {
       var exp = {foo: 'bar'};
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       spyOn(ref, 'getAuth').and.returnValue(exp);
       var res = new NormalizedRef(rec).getAuth('abc123');
       expect(res).toBe(exp);
@@ -368,7 +368,7 @@ describe('NormalizedRef', function() {
   describe('onAuth', function () {
     it('calls onAuth() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var cb = function() {};
       var ctx = {};
       var spy = spyOn(ref, 'onAuth');
@@ -380,7 +380,7 @@ describe('NormalizedRef', function() {
   describe('offAuth', function () {
     it('calls offAuth() on the master ref', function() {
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'offAuth');
       new NormalizedRef(rec).offAuth('abc123');
       expect(spy).toHaveBeenCalled();
@@ -392,7 +392,7 @@ describe('NormalizedRef', function() {
       var cb = function() {};
       var creds = {email: 'test@test.com', password: 'test'};
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'createUser');
       new NormalizedRef(rec).createUser(creds, cb);
       expect(spy).toHaveBeenCalledWith(creds, cb);
@@ -404,7 +404,7 @@ describe('NormalizedRef', function() {
       var cb = function() {};
       var creds = {email: 'test@test.com', oldPassword: 'test', newPassword: 'testy'};
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'changePassword');
       new NormalizedRef(rec).changePassword(creds, cb);
       expect(spy).toHaveBeenCalledWith(creds, cb);
@@ -416,7 +416,7 @@ describe('NormalizedRef', function() {
       var cb = function() {};
       var creds = {email: 'test@test.com', password: 'test'};
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'removeUser');
       new NormalizedRef(rec).removeUser(creds, cb);
       expect(spy).toHaveBeenCalledWith(creds, cb);
@@ -428,7 +428,7 @@ describe('NormalizedRef', function() {
       var cb = function() {};
       var creds = {email: 'test@test.com'};
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'resetPassword');
       new NormalizedRef(rec).resetPassword(creds, cb);
       expect(spy).toHaveBeenCalledWith(creds, cb);
@@ -440,7 +440,7 @@ describe('NormalizedRef', function() {
       var cb = function() {};
       var creds = {oldEmail: 'test@test.com', newEmail: 'testy@testy.com', password: 'test'};
       var rec = hp.stubRec();
-      var ref = rec.getPathManager().first().ref();
+      var ref = rec.getPathManager().first().ref;
       var spy = spyOn(ref, 'changeEmail');
       new NormalizedRef(rec).changeEmail(creds, cb);
       expect(spy).toHaveBeenCalledWith(creds, cb);
