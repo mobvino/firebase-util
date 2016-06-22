@@ -10,6 +10,7 @@ function Path(pathProps, parent) {
   this._parent = parent || null;
   this.ref = this._ref;
   this.reff = this._ref.ref;
+  this.parent = this._parent;
 }
 
 Path.prototype = {
@@ -34,7 +35,6 @@ Path.prototype = {
   url: function() { return this.reff.toString(); },
   name: function() { return this._alias; },
   id: function() { return this.reff.key; },
-  parent: function() { return this._parent; },
   clone: function() {
     return new Path([this._ref, this._alias, this._dep], this._parent);
   }
