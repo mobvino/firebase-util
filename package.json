@@ -1,15 +1,15 @@
 {
   "name": "firebase-util",
   "description": "A set of experimental power tools for Firebase.",
-  "version": "0.3.0gt",
+  "version": "0.0.0",
   "author": "Firebase <support@firebase.com> (https://www.firebase.com/)",
-  "homepage": "https://github.com/GartorwareCorp/firebase-util",
+  "homepage": "https://github.com/firebase/firebase-util",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GartorwareCorp/firebase-util.git"
+    "url": "https://github.com/firebase/firebase-util.git"
   },
   "bugs": {
-    "url": "https://github.com/GartorwareCorp/firebase-util/issues"
+    "url": "https://github.com/firebase/firebase-util/issues"
   },
   "licenses": [
     {
