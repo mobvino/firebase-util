@@ -30,7 +30,7 @@ Offset.prototype.goTo = function(newOffset) {
 Offset.prototype.observe = function(callback, context) {
   this.listeners.push([callback, context]);
   var key = this.getKey();
-  var ref = offsetRef(this.ref, key);
+  var ref = offsetRef(this.ref, key, this.field);
   callback.call(context, key && key.val, key && key.key, ref);
 };
 
@@ -53,7 +53,7 @@ Offset.prototype._notify = function() {
   if( !util.isEqual(this.lastNotifyValue, key) ) {
     util.log('Offset._notify: key at offset %d is %s', this.curr, key && key.key);
     this.lastNotifyValue = key;
-    var ref = offsetRef(this.ref, key);
+    var ref = offsetRef(this.ref, key, this.field);
     util.each(this.listeners, function(parts) {
       parts[0].call(parts[1], key && key.val, key && key.key, ref);
     });
@@ -213,12 +213,15 @@ function extractKey(snap, field) {
   return {val: v, key: snap.key};
 }
 
-function offsetRef(baseRef, startKey) {
+function offsetRef(baseRef, startKey, field) {
   if( startKey === false ) {
     return null;
   }
   else if( startKey === null ) {
     return baseRef;
+  }
+  else if( field === '$key' ) {
+    return baseRef.startAt(startKey.key);
   }
   else {
     return baseRef.startAt(startKey.val, startKey.key);
